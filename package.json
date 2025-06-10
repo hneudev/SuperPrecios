@@ -1,0 +1,19 @@
+{
+	"name": "superprecios",
+	"description": "DrEnvio Challenge/App para gestion de precios especiales",
+	"Author": "Hector Francisco Neudert Rocha",
+	"license": "MIT",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+		"dev:client": "npm run dev --prefix client",
+		"dev:server": "npm run dev --prefix server",
+		"build": "npm run build --prefix client"
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2",
+		"nodemon": "^3.1.10"
+	}
+}
