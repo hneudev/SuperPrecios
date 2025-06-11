@@ -161,6 +161,6 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 
 ## Contacto
 
-Tu Nombre - [@tutwitter](https://twitter.com/tutwitter) - email@ejemplo.com
+Hector Neudert - hneudev@gmail.com
 
 Link del Proyecto: [https://github.com/hneudev/SuperPrecios/](https://github.com/hneudev/SuperPrecios/)
