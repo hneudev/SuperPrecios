@@ -19,11 +19,11 @@ function App() {
 							element={<Articulos />}
 						/>
 						<Route
-							path='/articles'
+							path='/articulos'
 							element={<Articulos />}
 						/>
 						<Route
-							path='/upload'
+							path='/subida'
 							element={<Upload />}
 						/>
 					</Routes>

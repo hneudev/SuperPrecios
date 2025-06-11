@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Upload as UploadIcon, DollarSign, User, Package, FileText, Check, AlertCircle, RefreshCw } from "lucide-react";
 import { Producto } from "./Articulos";
+import { formatoPrecio } from "../utils/formatters";
+import { getNombreProducto } from "../utils/productUtils.ts";
 
 // Definición de interfaces para los datos
 interface PrecioEspecial {
@@ -158,30 +160,13 @@ const Subida: React.FC = () => {
 		}
 	};
 
-	// Obtener el nombre del producto por su ID
-	// Esta función busca el producto en la lista de productos y devuelve su nombre
-	const getNombreProducto = (idProducto: string) => {
-		const producto = productos.find((p) => p._id === idProducto);
-		return producto ? producto.nombre || "Producto sin nombre" : "Producto no encontrado";
-	};
-
-	// Formato de precio
-	// Esta función formatea un número como una cadena de texto representando un precio en formato mexicano
-	const formatoPrecio = (precio: number) => {
-		return new Intl.NumberFormat("es-MX", {
-			style: "currency",
-			currency: "MXN",
-			minimumFractionDigits: 2,
-		}).format(precio);
-	};
-
 	return (
 		<div className='space-y-6'>
 			{/*  Header */}
-			<div className='bg-white rounded-xl shadow-sm p-6 border border-gray-200'>
+			<div className='p-6 bg-white border border-gray-200 shadow-sm rounded-xl'>
 				<div className='flex items-center gap-3'>
-					<div className='bg-gradient-to-r from-indigo-600 to-purple-600 p-2 rounded-lg'>
-						<UploadIcon className='h-6 w-6 text-white' />
+					<div className='p-2 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600'>
+						<UploadIcon className='w-6 h-6 text-white' />
 					</div>
 					<div>
 						<h1 className='text-2xl font-bold text-gray-900'>Subida de precios especiales</h1>
@@ -190,9 +175,9 @@ const Subida: React.FC = () => {
 				</div>
 			</div>
 
-			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+			<div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
 				{/* Formulario de Subida */}
-				<div className='bg-white rounded-xl shadow-sm border border-gray-200'>
+				<div className='bg-white border border-gray-200 shadow-sm rounded-xl'>
 					<div className='px-6 py-4 border-b border-gray-200'>
 						<h2 className='text-lg font-semibold text-gray-900'>Agrega el precio especial</h2>
 						<p className='text-sm text-gray-600'>Escribe el precio personalizado para el cliente</p>
@@ -205,8 +190,8 @@ const Subida: React.FC = () => {
 						<div>
 							<label
 								htmlFor='idUsuario'
-								className='block text-sm font-medium text-gray-700 mb-1'>
-								<User className='inline h-4 w-4 mr-1' />
+								className='block mb-1 text-sm font-medium text-gray-700'>
+								<User className='inline w-4 h-4 mr-1' />
 								Id de Usuario *
 							</label>
 							<input
@@ -225,8 +210,8 @@ const Subida: React.FC = () => {
 						<div>
 							<label
 								htmlFor='idProducto'
-								className='block text-sm font-medium text-gray-700 mb-1'>
-								<Package className='inline h-4 w-4 mr-1' />
+								className='block mb-1 text-sm font-medium text-gray-700'>
+								<Package className='inline w-4 h-4 mr-1' />
 								Producto *
 							</label>
 							<select
@@ -251,8 +236,8 @@ const Subida: React.FC = () => {
 						<div>
 							<label
 								htmlFor='precioEspecial'
-								className='block text-sm font-medium text-gray-700 mb-1'>
-								<DollarSign className='inline h-4 w-4 mr-1' />
+								className='block mb-1 text-sm font-medium text-gray-700'>
+								<DollarSign className='inline w-4 h-4 mr-1' />
 								Precio especial *
 							</label>
 							<input
@@ -273,8 +258,8 @@ const Subida: React.FC = () => {
 						<div>
 							<label
 								htmlFor='notas'
-								className='block text-sm font-medium text-gray-700 mb-1'>
-								<FileText className='inline h-4 w-4 mr-1' />
+								className='block mb-1 text-sm font-medium text-gray-700'>
+								<FileText className='inline w-4 h-4 mr-1' />
 								Notas (Opcional)
 							</label>
 							<textarea
@@ -292,15 +277,15 @@ const Subida: React.FC = () => {
 						<button
 							type='submit'
 							disabled={submitLoading || loading}
-							className='w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2'>
+							className='flex items-center justify-center w-full gap-2 px-4 py-3 font-medium text-white transition-all duration-200 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'>
 							{submitLoading ? (
 								<>
-									<RefreshCw className='h-4 w-4 animate-spin' />
+									<RefreshCw className='w-4 h-4 animate-spin' />
 									Salvando...
 								</>
 							) : (
 								<>
-									<Check className='h-4 w-4' />
+									<Check className='w-4 h-4' />
 									Guardar Precio Especial
 								</>
 							)}
@@ -309,34 +294,41 @@ const Subida: React.FC = () => {
 				</div>
 
 				{/* Lista de Precios especiales recientes */}
-				<div className='bg-white rounded-xl shadow-sm border border-gray-200'>
+				<div className='bg-white border border-gray-200 shadow-sm rounded-xl'>
 					<div className='px-6 py-4 border-b border-gray-200'>
 						<h2 className='text-lg font-semibold text-gray-900'>Precios especiales recientes</h2>
-						<p className='text-sm text-gray-600'>Ultimas reediciones</p>
+						<p className='text-sm text-gray-600'>Ultimos cambios</p>
 					</div>
 
 					<div className='p-6'>
-						{preciosEspeciales.length === 0 ? (
-							<div className='text-center py-8'>
-								<DollarSign className='h-12 w-12 text-gray-400 mx-auto mb-4' />
+						{loading ? (
+							<div className='py-8 text-center'>
+								<RefreshCw className='w-12 h-12 mx-auto mb-4 text-gray-400 animate-spin' />
+								<p className='text-gray-500'>Cargando productos...</p>
+							</div>
+						) : preciosEspeciales.length === 0 ? (
+							<div className='py-8 text-center'>
+								<DollarSign className='w-12 h-12 mx-auto mb-4 text-gray-400' />
 								<p className='text-gray-500'>Sin precios especiales aun</p>
 							</div>
 						) : (
-							<div className='space-y-3 max-h-96 overflow-y-auto'>
+							<div className='space-y-3 max-h-[calc(100vh-24rem)] overflow-y-auto'>
 								{preciosEspeciales.slice(0, 10).map((precio) => (
 									<div
 										key={precio._id}
-										className='bg-gray-50 rounded-lg p-4 border border-gray-200'>
-										<div className='flex justify-between items-start mb-2'>
-											<div>
-												<h3 className='font-medium text-gray-900 text-sm'>{getNombreProducto(precio.idProducto)}</h3>
+										className='p-4 border border-gray-200 rounded-lg bg-gray-50'>
+										<div className='flex flex-col gap-2 mb-2 sm:flex-row sm:items-start sm:justify-between'>
+											<div className='min-w-0'>
+												<h3 className='text-sm font-medium text-gray-900 truncate'>
+													{getNombreProducto(precio.idProducto, productos)}
+												</h3>
 												<p className='text-xs text-gray-500'>Usuario: {precio.idUsuario}</p>
 											</div>
-											<span className='text-sm font-semibold text-green-600'>
+											<span className='text-sm font-semibold text-green-600 whitespace-nowrap'>
 												{formatoPrecio(precio.precioEspecial)}
 											</span>
 										</div>
-										{precio.notas && <p className='text-xs text-gray-600 mb-2'>{precio.notas}</p>}
+										{precio.notas && <p className='mb-2 text-xs text-gray-600 break-words'>{precio.notas}</p>}
 										<p className='text-xs text-gray-400'>Creado: {new Date(precio.createdAt).toLocaleDateString()}</p>
 									</div>
 								))}
@@ -348,16 +340,16 @@ const Subida: React.FC = () => {
 
 			{/* Mensaje success */}
 			{success && (
-				<div className='bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3'>
-					<Check className='h-5 w-5 text-green-500 flex-shrink-0' />
+				<div className='flex items-center gap-3 p-4 border border-green-200 bg-green-50 rounded-xl'>
+					<Check className='flex-shrink-0 w-5 h-5 text-green-500' />
 					<p className='text-green-700'>{success}</p>
 				</div>
 			)}
 
 			{/* Mensaje error */}
 			{error && (
-				<div className='bg-red-50 border border-red-200 rounded-xl p-4 flex items-center gap-3'>
-					<AlertCircle className='h-5 w-5 text-red-500 flex-shrink-0' />
+				<div className='flex items-center gap-3 p-4 border border-red-200 bg-red-50 rounded-xl'>
+					<AlertCircle className='flex-shrink-0 w-5 h-5 text-red-500' />
 					<p className='text-red-700'>{error}</p>
 				</div>
 			)}

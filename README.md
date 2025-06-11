@@ -1,39 +1,73 @@
-# SuperPrecios - Desafío DRENVÍO
+# SuperPrecios
 
-## Introducción
+Aplicación web para gestionar precios especiales de productos, desarrollada con React, TypeScript, Node.js y MongoDB.
 
-SuperPrecios es una aplicación web desarrollada como parte del desafío técnico de DRENVÍO. La aplicación permite gestionar productos y sus precios especiales, ofreciendo una interfaz intuitiva para visualizar y administrar precios personalizados para diferentes usuarios.
+## Características
 
-## Características Principales
+### Gestión de Productos
 
-- Visualización de productos con precios especiales
-- Gestión de precios especiales por usuario
-- Interfaz de usuario moderna y responsiva
-- Monitoreo de estado de conexión en tiempo real
-- Búsqueda y filtrado de productos
-- Validación de datos en tiempo real
+- Visualización de productos en un grid de tarjetas responsive
+- Búsqueda por nombre o categoría
+- Filtrado de productos
+- Paginación configurable (12, 24 o todos los productos)
+- Lazy loading de imágenes con placeholders
+- Indicadores de stock y precios especiales
 
-## Requisitos Previos
+### Precios Especiales
 
-- Node.js (v18 o superior)
-- npm (v9 o superior)
-- MongoDB Atlas (cuenta gratuita)
+- Asignación de precios especiales por usuario
+- Visualización de precios originales y especiales
+- Historial de precios especiales
+- Notas y comentarios para cada precio especial
 
-## Pasos para Ejecutar Localmente
+### Interfaz de Usuario
 
-1. **Clonar el Repositorio**
+- Diseño moderno y responsive
+- Tarjetas de producto con animaciones y efectos hover
+- Indicadores de estado de conexión
+- Mensajes de error y éxito intuitivos
+- Paginación con controles intuitivos
+- Selector de cantidad de items por página
+
+### Características Técnicas
+
+- Lazy loading de imágenes
+- Debounce en búsquedas
+- Manejo de estados de carga y error
+- Verificación de salud del backend
+- Optimización de rendimiento
+- Diseño responsive para todos los dispositivos
+
+## Tecnologías Utilizadas
+
+### Frontend
+
+- React 18
+- TypeScript
+- Tailwind CSS
+- Redux Toolkit
+- React Router
+- Lucide Icons
+
+### Backend
+
+- Node.js
+- Express
+- MongoDB
+- Mongoose
+
+## Instalación
+
+1. Clona el repositorio:
 
 ```bash
-git clone [URL_DEL_REPOSITORIO]
-cd SuperPrecios
+git clone https://github.com/hneudev/SuperPrecios/
+cd superprecios
 ```
 
-2. **Instalar Dependencias**
+2. Instala las dependencias:
 
 ```bash
-# Instalar dependencias del proyecto principal
-npm install
-
 # Instalar dependencias del cliente
 cd client
 npm install
@@ -43,104 +77,90 @@ cd ../server
 npm install
 ```
 
-3. **Configurar Variables de Entorno**
-   Crear un archivo `.env` en la carpeta `server` con las siguientes variables:
-
-```env
-MONGODB_URI=mongodb+srv://drenviochallenge:m1jWly3uw42cBwp6@drenviochallenge.2efc0.mongodb.net/
-PORT=5000
-```
-
-4. **Iniciar la Aplicación**
+3. Configura las variables de entorno:
 
 ```bash
-# Desde la raíz del proyecto
-npm run dev
+# En el directorio server
+cp .env.example .env
 ```
 
-La aplicación estará disponible en:
+4. Inicia la aplicación:
 
-- Frontend: http://localhost:5173
-- Backend: http://localhost:5000
+```bash
+# Iniciar el servidor (desde el directorio server)
+npm run dev
 
-## Justificación de Elecciones Técnicas
-
-### TypeScript
-
-Se eligió TypeScript por las siguientes razones:
-
-- Tipado estático que ayuda a prevenir errores en tiempo de desarrollo
-- Mejor autocompletado y documentación en el IDE
-- Interfaces y tipos que mejoran la mantenibilidad del código
-- Facilita la refactorización y el mantenimiento a largo plazo
-
-### React
-
-- Biblioteca moderna y eficiente para construir interfaces de usuario
-- Componentes reutilizables y mantenibles
-- Gran ecosistema de herramientas y bibliotecas
-- Excelente rendimiento con el Virtual DOM
-
-### Redux Toolkit
-
-- Gestión centralizada del estado de la aplicación
-- Reducción de código boilerplate
-- Herramientas integradas para manejar efectos secundarios
-- Mejor organización del código y separación de responsabilidades
-
-### MongoDB
-
-- Base de datos NoSQL flexible y escalable
-- Esquema dinámico que permite adaptarse a cambios en los requisitos
-- Excelente rendimiento para operaciones de lectura/escritura
-- Fácil integración con Node.js
+# Iniciar el cliente (desde el directorio client)
+npm run dev
+```
 
 ## Estructura del Proyecto
 
 ```
-SuperPrecios/
+superprecios/
 ├── client/                 # Frontend React
 │   ├── src/
-│   │   ├── components/     # Componentes reutilizables
-│   │   ├── pages/         # Páginas principales
-│   │   ├── store/         # Configuración de Redux
-│   │   │   └── slices/    # Reducers y acciones
-│   │   └── assets/        # Recursos estáticos
-│   └── package.json
-├── server/                 # Backend Node.js
-│   ├── src/
-│   │   ├── controllers/   # Controladores de la API
-│   │   ├── models/        # Modelos de MongoDB
-│   │   ├── routes/        # Rutas de la API
-│   │   └── config/        # Configuración
-│   └── package.json
-└── package.json           # Scripts y dependencias principales
+│   │   ├── components/    # Componentes reutilizables
+│   │   ├── pages/        # Páginas principales
+│   │   ├── hooks/        # Custom hooks
+│   │   ├── utils/        # Utilidades y helpers
+│   │   └── store/        # Estado global Redux
+│   └── public/           # Archivos estáticos
+│
+└── server/                # Backend Node.js
+    ├── src/
+    │   ├── controllers/  # Controladores de rutas
+    │   ├── models/       # Modelos de MongoDB
+    │   ├── routes/       # Definición de rutas
+    │   └── utils/        # Utilidades del servidor
+    └── .env             # Variables de entorno
 ```
 
-## API Endpoints
+## Características de la UI
 
-### Productos
+### Grid de Productos
 
-- `GET /api/productos` - Obtener todos los productos
-- `GET /api/productos?idUsuario={id}` - Obtener productos con precios especiales
+- Diseño responsive con 1-4 columnas según el tamaño de pantalla
+- Tarjetas con efecto hover y sombras
+- Imágenes con lazy loading y placeholders
+- Indicadores de stock y precios especiales
+- Paginación configurable
 
-### Precios Especiales
+### Sistema de Paginación
 
-- `GET /api/precios-especiales` - Obtener todos los precios especiales
-- `POST /api/precios-especiales` - Crear un nuevo precio especial
+- Selector de items por página (12, 24, todos)
+- Navegación intuitiva con números de página
+- Indicador de rango actual de productos
+- Botones de navegación con estados disabled
 
-## Contribución
+### Manejo de Imágenes
 
-1. Fork el proyecto
-2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+- Lazy loading para mejor rendimiento
+- Placeholders durante la carga
+- Mensaje de error cuando la imagen no está disponible
+- Efecto zoom al hover
+
+### Estados de Carga y Error
+
+- Spinners de carga
+- Mensajes de error descriptivos
+- Indicadores de estado de conexión
+- Feedback visual para acciones del usuario
+
+## Contribuir
+
+1. Haz fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
 3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
 4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir un Pull Request
-
-## Autor
-
-Hector Francisco Neudert Rocha
+5. Abre un Pull Request
 
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+
+## Contacto
+
+Tu Nombre - [@tutwitter](https://twitter.com/tutwitter) - email@ejemplo.com
+
+Link del Proyecto: [https://github.com/hneudev/SuperPrecios/](https://github.com/hneudev/SuperPrecios/)

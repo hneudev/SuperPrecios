@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	const location = useLocation();
 
 	const isActive = (path: string) => {
-		return location.pathname === path || (path === "/" && location.pathname === "/articles");
+		return location.pathname === path || (path === "/" && location.pathname === "/articulos");
 	};
 
 	return (
@@ -37,9 +37,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 						{/* Navigation Links */}
 						<div className='flex space-x-1'>
 							<Link
-								to='/articles'
+								to='/articulos'
 								className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
-									isActive("/articles") || isActive("/")
+									isActive("/articulos") || isActive("/")
 										? "bg-blue-100 text-blue-700 shadow-sm"
 										: "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
 								}`}>
@@ -47,9 +47,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 								<span>Articulos</span>
 							</Link>
 							<Link
-								to='/upload'
+								to='/subida'
 								className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center space-x-2 ${
-									isActive("/upload")
+									isActive("/subida")
 										? "bg-blue-100 text-blue-700 shadow-sm"
 										: "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
 								}`}>
