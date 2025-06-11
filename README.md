@@ -1,42 +1,200 @@
 # SuperPrecios
 
-Aplicación web para gestionar precios especiales de productos, desarrollada con React, TypeScript, Node.js y MongoDB.
+Sistema de gestión de precios especiales para productos, desarrollado con React, TypeScript, Node.js y MongoDB.
 
-## Características
+## Funcionamiento de la Aplicación
 
-### Gestión de Productos
+### Nivel Cliente (Frontend)
 
-- Visualización de productos en un grid de tarjetas responsive
-- Búsqueda por nombre o categoría
-- Filtrado de productos
-- Paginación configurable (12, 24 o todos los productos)
-- Lazy loading de imágenes con placeholders
-- Indicadores de stock y precios especiales
+La aplicación frontend está construida como una Single Page Application (SPA) que proporciona una interfaz intuitiva para gestionar productos y precios especiales. Los usuarios pueden:
 
-### Precios Especiales
+- Visualizar un catálogo de productos con información detallada
+- Buscar productos por nombre o categoría
+- Ver precios especiales asignados a usuarios específicos
+- Gestionar precios especiales a través de un formulario dedicado
+- Recibir feedback inmediato sobre sus acciones mediante notificaciones
+- Navegar entre diferentes secciones sin recargas de página
 
-- Asignación de precios especiales por usuario
-- Visualización de precios originales y especiales
-- Historial de precios especiales
-- Notas y comentarios para cada precio especial
+### Nivel Servidor (Backend)
 
-### Interfaz de Usuario
+El backend proporciona una API RESTful que maneja:
 
-- Diseño moderno y responsive
-- Tarjetas de producto con animaciones y efectos hover
-- Indicadores de estado de conexión
-- Mensajes de error y éxito intuitivos
-- Paginación con controles intuitivos
-- Selector de cantidad de items por página
+- Gestión de productos (CRUD)
+- Gestión de precios especiales
+- Verificación de salud del sistema
+- Conexión con la base de datos MongoDB
+- Manejo de errores y validaciones
+- Respuestas optimizadas para el cliente
 
-### Características Técnicas
+### Experiencia de Usuario
 
-- Lazy loading de imágenes
-- Debounce en búsquedas
-- Manejo de estados de carga y error
-- Verificación de salud del backend
-- Optimización de rendimiento
-- Diseño responsive para todos los dispositivos
+La aplicación está diseñada pensando en la experiencia del usuario:
+
+- **Interfaz Responsiva**: Se adapta a diferentes tamaños de pantalla
+- **Feedback Visual**: Notificaciones claras para acciones exitosas y errores
+- **Carga Optimizada**: Lazy loading de imágenes y paginación eficiente
+- **Navegación Intuitiva**: Menú claro y rutas bien definidas
+- **Estados de Carga**: Indicadores visuales durante operaciones asíncronas
+- **Validaciones en Tiempo Real**: Feedback inmediato en formularios
+
+## Justificación de Elecciones Técnicas
+
+### Frontend
+
+- **React + TypeScript**:
+
+  - TypeScript proporciona tipado estático, mejorando la mantenibilidad y reduciendo errores
+  - React permite una UI reactiva y eficiente con su modelo de componentes
+
+- **Redux Toolkit**:
+
+  - Gestión centralizada del estado
+  - Reducción de boilerplate code
+  - Mejor manejo de operaciones asíncronas
+
+- **Tailwind CSS**:
+
+  - Desarrollo rápido de interfaces
+  - Consistencia en el diseño
+  - Optimización automática de estilos
+
+- **Vite**:
+  - Desarrollo más rápido que Next.js
+  - Mejor rendimiento en desarrollo
+  - Hot Module Replacement eficiente
+
+### Backend
+
+- **Node.js + Express**:
+
+  - JavaScript en ambos lados (frontend y backend)
+  - Gran ecosistema de paquetes
+  - Fácil de escalar
+
+- **MongoDB**:
+
+  - Flexibilidad en el esquema de datos
+  - Buen rendimiento para operaciones de lectura/escritura
+  - Fácil integración con Node.js
+
+- **TypeScript**:
+  - Consistencia con el frontend
+  - Mejor mantenibilidad del código
+  - Detección temprana de errores
+
+## Pasos para ejecutar el proyecto localmente
+
+## Instalación
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone https://github.com/hneudev/SuperPrecios.git
+   cd SuperPrecios
+   ```
+
+2. **Instalar dependencias del backend**
+
+   ```bash
+   cd server
+   npm install
+   ```
+
+3. **Instalar dependencias del frontend**
+   ```bash
+   cd ../client
+   npm install
+   ```
+
+## Configuración del Proyecto
+
+### 1. Configuración del Backend
+
+1. **Crear archivo `.env` en el directorio `server`**
+
+   ```env
+   PORT=5000
+   MONGODB_URI=tu_uri_de_mongodb
+   ```
+
+   - `PORT`: Puerto donde se ejecutará el servidor (por defecto: 5000)
+   - `MONGODB_URI`: URL de conexión a MongoDB (ejemplo: mongodb+srv://usuario:contraseña@cluster.mongodb.net/database)
+
+### 2. Configuración del Frontend
+
+1. **Configuración para Desarrollo**
+   Crear archivo `.env` en el directorio `client`:
+
+   ```env
+   VITE_API_URL=http://localhost:5000
+   ```
+
+2. **Asegurarse que los archivos .env estén en .gitignore**
+   Verificar que el archivo `.gitignore` incluya:
+   ```
+   # Environment variables
+   .env
+   .env.local
+   .env.development
+   .env.production
+   ```
+
+## Ejecución del Proyecto
+
+### Desarrollo Local
+
+1. **Iniciar el Backend**
+
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+   El servidor estará disponible en `http://localhost:5000`
+
+2. **Iniciar el Frontend**
+   ```bash
+   cd client
+   npm run dev
+   ```
+   La aplicación estará disponible en `http://localhost:5173`
+
+### Producción
+
+1. **Construir el Frontend**
+
+   ```bash
+   cd client
+   npm run build
+   ```
+
+   Esto generará una versión optimizada en el directorio `dist`
+
+2. **Previsualizar la versión de producción**
+   ```bash
+   cd client
+   npm run preview
+   ```
+
+## Estructura del Proyecto
+
+```
+SuperPrecios/
+├── client/                 # Frontend React
+│   ├── src/
+│   │   ├── components/    # Componentes React
+│   │   ├── pages/        # Páginas de la aplicación
+│   │   ├── store/        # Estado global (Redux)
+│   │   └── utils/        # Utilidades
+│   └── public/           # Archivos estáticos
+└── server/               # Backend Node.js
+    ├── src/
+    │   ├── controllers/  # Controladores
+    │   ├── models/      # Modelos de MongoDB
+    │   ├── routes/      # Rutas de la API
+    │   └── middleware/  # Middleware
+    └── config/          # Configuración
+```
 
 ## Tecnologías Utilizadas
 
@@ -44,8 +202,9 @@ Aplicación web para gestionar precios especiales de productos, desarrollada con
 
 - React 18
 - TypeScript
-- Tailwind CSS
 - Redux Toolkit
+- Tailwind CSS
+- Vite
 - React Router
 - Lucide Icons
 
@@ -55,105 +214,12 @@ Aplicación web para gestionar precios especiales de productos, desarrollada con
 - Express
 - MongoDB
 - Mongoose
+- TypeScript
 
-## Instalación
+## Servidores desplegados
 
-1. Clona el repositorio:
-
-```bash
-git clone https://github.com/hneudev/SuperPrecios/
-cd superprecios
-```
-
-2. Instala las dependencias:
-
-```bash
-# Instalar dependencias del cliente
-cd client
-npm install
-
-# Instalar dependencias del servidor
-cd ../server
-npm install
-```
-
-3. Configura las variables de entorno:
-
-```bash
-# En el directorio server
-cp .env.example .env
-```
-
-4. Inicia la aplicación:
-
-```bash
-# Iniciar el servidor (desde el directorio server)
-npm run dev
-
-# Iniciar el cliente (desde el directorio client)
-npm run dev
-```
-
-## Estructura del Proyecto
-
-```
-superprecios/
-├── client/                 # Frontend React
-│   ├── src/
-│   │   ├── components/    # Componentes reutilizables
-│   │   ├── pages/        # Páginas principales
-│   │   ├── hooks/        # Custom hooks
-│   │   ├── utils/        # Utilidades y helpers
-│   │   └── store/        # Estado global Redux
-│   └── public/           # Archivos estáticos
-│
-└── server/                # Backend Node.js
-    ├── src/
-    │   ├── controllers/  # Controladores de rutas
-    │   ├── models/       # Modelos de MongoDB
-    │   ├── routes/       # Definición de rutas
-    │   └── utils/        # Utilidades del servidor
-    └── .env             # Variables de entorno
-```
-
-## Características de la UI
-
-### Grid de Productos
-
-- Diseño responsive con 1-4 columnas según el tamaño de pantalla
-- Tarjetas con efecto hover y sombras
-- Imágenes con lazy loading y placeholders
-- Indicadores de stock y precios especiales
-- Paginación configurable
-
-### Sistema de Paginación
-
-- Selector de items por página (12, 24, todos)
-- Navegación intuitiva con números de página
-- Indicador de rango actual de productos
-- Botones de navegación con estados disabled
-
-### Manejo de Imágenes
-
-- Lazy loading para mejor rendimiento
-- Placeholders durante la carga
-- Mensaje de error cuando la imagen no está disponible
-- Efecto zoom al hover
-
-### Estados de Carga y Error
-
-- Spinners de carga
-- Mensajes de error descriptivos
-- Indicadores de estado de conexión
-- Feedback visual para acciones del usuario
-
-## Contribuir
-
-1. Haz fork del proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+- [https://superprecios.onrender.com/](https://superprecios.onrender.com/) (backend)
+- [https://super-precios.vercel.app/](https://super-precios.vercel.app/) (frontend)
 
 ## Licencia
 
