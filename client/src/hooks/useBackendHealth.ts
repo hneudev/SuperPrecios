@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ENDPOINTS } from "../config";
 
 type ConnectionStatus = "connected" | "disconnected" | "checking";
 
@@ -12,7 +13,7 @@ export const useBackendHealth = (checkInterval: number = 30000) => {
 
 	const checkBackendHealth = async (): Promise<boolean> => {
 		try {
-			const response = await fetch("http://localhost:5000/api/health");
+			const response = await fetch(ENDPOINTS.HEALTH);
 			const data = await response.json();
 			const isConnected = data.mongodb === "connected";
 			setConnectionStatus(isConnected ? "connected" : "disconnected");

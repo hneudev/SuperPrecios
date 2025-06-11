@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Producto } from "../../pages/Articulos";
+import { ENDPOINTS } from "../../config";
 
 interface EstadoProductos {
 	elementos: Producto[];
@@ -23,7 +24,7 @@ const estadoInicial: EstadoProductos = {
 
 // Thunks asíncronos
 export const verificarSaludBackend = createAsyncThunk("productos/verificarSaludBackend", async () => {
-	const respuesta = await fetch("http://localhost:5000/api/health");
+	const respuesta = await fetch(ENDPOINTS.HEALTH);
 	const datos = await respuesta.json();
 	return datos.mongodb === "connected";
 });
@@ -33,7 +34,7 @@ export const obtenerProductos = createAsyncThunk("productos/obtener", async (_, 
 	const { mostrarPreciosEspeciales, idUsuario } = estado.productos;
 
 	const parametrosConsulta = mostrarPreciosEspeciales ? `?idUsuario=${idUsuario}` : "";
-	const respuesta = await fetch(`http://localhost:5000/api/productos${parametrosConsulta}`, {
+	const respuesta = await fetch(`${ENDPOINTS.PRODUCTOS}${parametrosConsulta}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

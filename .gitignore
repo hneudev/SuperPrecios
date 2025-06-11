@@ -39,3 +39,7 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Environment variables
+.env.development
+.env.production

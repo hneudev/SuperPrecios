@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { ENDPOINTS } from "../../config";
 
 interface PrecioEspecial {
 	_id: string;
@@ -37,7 +38,7 @@ const estadoInicial: EstadoPreciosEspeciales = {
 };
 
 export const obtenerPreciosEspeciales = createAsyncThunk("preciosEspeciales/obtener", async () => {
-	const respuesta = await fetch("http://localhost:5000/api/precios-especiales");
+	const respuesta = await fetch(ENDPOINTS.PRECIOS_ESPECIALES);
 	const datos = await respuesta.json();
 	if (!datos.success) throw new Error(datos.message || "Error al obtener precios especiales");
 	return datos.data;
@@ -51,7 +52,7 @@ export const crearPrecioEspecial = createAsyncThunk("preciosEspeciales/crear", a
 		throw new Error("Rellena todos los campos obligatorios");
 	}
 
-	const respuesta = await fetch("http://localhost:5000/api/precios-especiales", {
+	const respuesta = await fetch(ENDPOINTS.PRECIOS_ESPECIALES, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({

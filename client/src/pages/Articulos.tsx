@@ -16,6 +16,7 @@ import {
 import useDebounce from "../hooks/useDebounce";
 import { formatoPrecio } from "../utils/formatters";
 import { useBackendHealth } from "../hooks/useBackendHealth";
+import { ENDPOINTS } from "../config";
 
 export interface Producto {
 	_id: string;
@@ -84,7 +85,7 @@ const Articulos: React.FC = () => {
 			}
 
 			const queryParams = muestraPreciosEspeciales ? `?idUsuario=${debouncedIdUsuario}` : "";
-			const response = await fetch(`http://localhost:5000/api/productos${queryParams}`, {
+			const response = await fetch(`${ENDPOINTS.PRODUCTOS}${queryParams}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",

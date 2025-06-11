@@ -3,6 +3,7 @@ import { Upload as UploadIcon, DollarSign, User, Package, FileText, Check, Alert
 import { Producto } from "./Articulos";
 import { formatoPrecio } from "../utils/formatters";
 import { getNombreProducto } from "../utils/productUtils.ts";
+import { ENDPOINTS } from "../config";
 
 // Definición de interfaces para los datos
 interface PrecioEspecial {
@@ -43,7 +44,7 @@ const Subida: React.FC = () => {
 	const fetchProductos = async () => {
 		try {
 			setLoading(true);
-			const response = await fetch("http://localhost:5000/api/productos");
+			const response = await fetch(ENDPOINTS.PRODUCTOS);
 
 			if (!response.ok) {
 				throw new Error(`Error HTTP! estado: ${response.status}`);
@@ -68,7 +69,7 @@ const Subida: React.FC = () => {
 	// Esta función se encarga de hacer una solicitud al backend para obtener la lista de precios especiales
 	const fetchPreciosEspeciales = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/precios-especiales");
+			const response = await fetch(ENDPOINTS.PRECIOS_ESPECIALES);
 
 			if (!response.ok) {
 				throw new Error(`Error HTTP! estado:${response.status}`);
@@ -121,7 +122,7 @@ const Subida: React.FC = () => {
 			setError("");
 			setSuccess("");
 
-			const response = await fetch("http://localhost:5000/api/precios-especiales", {
+			const response = await fetch(ENDPOINTS.PRECIOS_ESPECIALES, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
