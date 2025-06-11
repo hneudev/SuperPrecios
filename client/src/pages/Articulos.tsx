@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Search, DollarSign, Tag, AlertCircle, RefreshCw, Users, Wifi, WifiOff } from "lucide-react";
 
 export interface Producto {
 	_id: string;
-
 	categoria: string;
 	descripcion: string;
 	imagen: string;
@@ -20,7 +20,7 @@ export interface Producto {
 }
 
 /**
- * Pagina Articulos
+ * Página Artículos
  * Muestra una lista de productos con opciones de búsqueda, filtros y precios especiales.
  * Permite al usuario buscar productos por nombre o categoría, y ver precios especiales si están disponibles.
  * Incluye manejo de errores mejorado y verificación del estado de conexión con el backend.
@@ -31,7 +31,7 @@ const Articulos: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string>("");
 	const [terminoBuscado, setTerminoBuscado] = useState("");
-	const [idUsuario, setIdUsuario] = useState("user123"); // Demo user ID
+	const [idUsuario, setIdUsuario] = useState("user123"); // ID de usuario de demostración
 	const [muestraPreciosEspeciales, setMuestraPreciosEspeciales] = useState(false);
 	const [connectionStatus, setConnectionStatus] = useState<"connected" | "disconnected" | "checking">("checking");
 
@@ -49,7 +49,7 @@ const Articulos: React.FC = () => {
 		}
 	};
 
-	//Obtiene los productos del backend y maneja errores de conexión y estado de la base de datos
+	// Obtiene los productos del backend y maneja errores de conexión y estado de la base de datos
 	// Esta función también verifica si el backend está saludable antes de realizar la solicitud
 	const fetchProductos = async () => {
 		try {
@@ -68,14 +68,14 @@ const Articulos: React.FC = () => {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				//Agregar un timeout para evitar solicitudes que se cuelguen
+				// Agregar un timeout para evitar solicitudes que se cuelguen
 				// Esto es útil para evitar que la aplicación se quede esperando indefinidamente
 				signal: AbortSignal.timeout(60000),
 			});
 
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => ({}));
-				throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+				throw new Error(errorData.message || `Error HTTP! estado: ${response.status}`);
 			}
 
 			const data = await response.json();
@@ -84,23 +84,29 @@ const Articulos: React.FC = () => {
 				setProductos(data.data);
 				setConnectionStatus("connected");
 			} else {
-				setError(data.message || "Failed to fetch productos");
+				setError(data.message || "Fallo al obtener productos");
 			}
 		} catch (err: any) {
-			console.error("Error fetching productos:", err);
+			console.error("Error al obtener productos:", err);
 			setConnectionStatus("disconnected");
 
-			// Provide user-friendly error messages
+			// Proporcionar mensajes de error amigables para el usuario
 			if (err.name === "AbortError") {
-				setError("Request timed out. The server may be experiencing issues. Please try again.");
+				setError(
+					"La solicitud ha expirado. El servidor puede estar experimentando problemas. Por favor, inténtalo de nuevo."
+				);
 			} else if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
-				setError("Cannot connect to server. Please ensure the backend is running on port 5000.");
+				setError("No se puede conectar al servidor. Asegúrate de que el backend esté ejecutándose en el puerto 5000.");
 			} else if (err.message.includes("database is disconnected")) {
-				setError("Database connection issue. Please check MongoDB Atlas connection and network access settings.");
+				setError(
+					"Problema de conexión a la base de datos. Por favor, revisa la conexión a MongoDB Atlas y la configuración de acceso a la red."
+				);
 			} else if (err.message.includes("timeout")) {
-				setError("Database query timed out. This may be due to network issues or MongoDB Atlas access restrictions.");
+				setError(
+					"La consulta a la base de datos ha expirado. Esto puede deberse a problemas de red o restricciones de acceso a MongoDB Atlas."
+				);
 			} else {
-				setError(err.message || "An unexpected error occurred while fetching productos.");
+				setError(err.message || "Ocurrió un error inesperado al obtener productos.");
 			}
 		} finally {
 			setLoading(false);
@@ -111,8 +117,7 @@ const Articulos: React.FC = () => {
 		fetchProductos();
 	}, [muestraPreciosEspeciales, idUsuario]);
 
-	// Actualizacion periódica del estado de conexión
-
+	// Actualización periódica del estado de conexión
 	useEffect(() => {
 		const interval = setInterval(checkBackendHealth, 30000);
 		return () => clearInterval(interval);
@@ -152,13 +157,13 @@ const Articulos: React.FC = () => {
 
 	return (
 		<div className='space-y-6'>
-			{/* Header */}
+			{/* Encabezado */}
 			<div className='bg-white rounded-xl shadow-sm p-6 border border-gray-200'>
 				<div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4'>
 					<div>
 						<h1 className='text-2xl font-bold text-gray-900 flex items-center gap-2'>
 							<Tag className='h-6 w-6 text-blue-600' />
-							Articulos
+							Artículos
 						</h1>
 						<p className='text-gray-600 mt-1'>Explora los productos y sus precios especiales</p>
 					</div>
@@ -186,7 +191,7 @@ const Articulos: React.FC = () => {
 							)}
 						</div>
 
-						{/* Input de Id de Usuario
+						{/* Input de ID de Usuario
 						 * Esta sección permite al usuario ingresar un ID de usuario para filtrar los precios especiales
 						 */}
 						<div className='flex items-center gap-2'>
@@ -195,7 +200,7 @@ const Articulos: React.FC = () => {
 								type='text'
 								value={idUsuario}
 								onChange={(e) => setIdUsuario(e.target.value)}
-								placeholder='Id de Usuario'
+								placeholder='ID de Usuario'
 								className='px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent'
 							/>
 						</div>
@@ -208,28 +213,28 @@ const Articulos: React.FC = () => {
 								onChange={(e) => setMuestraPreciosEspeciales(e.target.checked)}
 								className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
 							/>
-							<span className='text-sm font-medium text-gray-700'>Muestra precios especiales</span>
+							<span className='text-sm font-medium text-gray-700'>Mostrar precios especiales</span>
 						</label>
 
-						{/* Boton de actualizar*/}
+						{/* Botón de actualizar*/}
 						<button
 							onClick={fetchProductos}
 							disabled={loading}
 							className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center gap-2 text-sm font-medium'>
 							<RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
-							Actualiza{" "}
+							Actualizar{" "}
 						</button>
 					</div>
 				</div>
 			</div>
 
-			{/* Barra de busqueda y filtros*/}
+			{/* Barra de búsqueda y filtros*/}
 			<div className='bg-white rounded-xl shadow-sm p-6 border border-gray-200'>
 				<div className='relative'>
 					<Search className='absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400' />
 					<input
 						type='text'
-						placeholder='Busca productos por nombre o categoria...'
+						placeholder='Busca productos por nombre o categoría...'
 						value={terminoBuscado}
 						onChange={(e) => setTerminoBuscado(e.target.value)}
 						className='w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'
@@ -262,7 +267,7 @@ const Articulos: React.FC = () => {
 				</div>
 			)}
 
-			{/* Tabla de Productos  */}
+			{/* Tabla de Productos  */}
 			<div className='bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden'>
 				<div className='px-6 py-4 border-b border-gray-200'>
 					<h2 className='text-lg font-semibold text-gray-900'>Productos ({productosFiltrados.length})</h2>
@@ -283,7 +288,7 @@ const Articulos: React.FC = () => {
 										Producto
 									</th>
 									<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
-										Categoria
+										Categoría
 									</th>
 									<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
 										Precio
@@ -307,7 +312,7 @@ const Articulos: React.FC = () => {
 												</div>
 												{producto.descripcion && (
 													<div className='text-sm text-gray-500 truncate max-w-xs'>
-														{producto.descripcion || "No description available"}
+														{producto.descripcion || "No hay descripción disponible"}
 													</div>
 												)}
 												<img
@@ -319,7 +324,7 @@ const Articulos: React.FC = () => {
 										</td>
 										<td className='px-6 py-4'>
 											<span className='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800'>
-												{producto.categoria || "Uncategorized"}
+												{producto.categoria || "Sin categoría"}
 											</span>
 										</td>
 										<td className='px-6 py-4'>
